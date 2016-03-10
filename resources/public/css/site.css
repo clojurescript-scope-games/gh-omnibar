@@ -1,0 +1,12 @@
+.body {
+    min-width: auto;
+    max-width: 600px;
+}
+.github-omnibar {
+  max-width: 300px;
+  margin: 0 auto;
+  border: 1px solid #e5e5e5;
+}
+.github-omnibar .filter-repos {
+    padding-bottom: 5px;
+}
