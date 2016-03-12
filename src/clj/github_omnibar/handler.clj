@@ -20,12 +20,16 @@
              :content "width=device-width, initial-scale=1"}]
     (include-css "/css/github.css")
     (include-css "/css/frameworks.css")
-
+    (include-js "/js/jquery.min.js")
     (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))
 ]
     [:body
      mount-target
-     (include-js "//code.jquery.com/jquery-1.12.0.min.js")
+     [:div.demo
+      [:a {:data-hotkey "g h"
+              :onclick "console.log('homepage')"}
+       "Homepage"]
+      [:input {:data-hotkey "s"}]]
      (include-js "/js/app.js")]))
 
 
