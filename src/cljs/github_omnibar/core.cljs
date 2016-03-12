@@ -9,28 +9,63 @@
   ;; (.toArray (.map (js/$ "[data-hotkey]") #({:label (.getAttribute %2 "aria-label") :hotkey (.getAttribute %2 "data-hotkey")}))))
   ;; )
 (defonce omni-data
-  (r/atom {:actions [{:label "Homepage"
-                    :hotkey "g h"}
-                   {:label "Search"
-                    :hotkey "s"}]
-         :search ""
-         }))
+  (r/atom {:actions [{:type :hot-key
+                      :label "Homepage"
+                      :hotkey "g h"}
+                     {:type :hot-key
+                      :label "Search"
+                      :hotkey "s"}]
+           :search ""
+           :highlighted 0
+           }))
+(defn- mod-actions [idx] (mod idx (count (:actions @omni-data))))
+(defn godown []
+  (swap! omni-data update-in [:highlighted] (comp mod-actions inc)))
+
+(defn goup []
+  (swap! omni-data update-in [:highlighted] (comp mod-actions dec)))
+
+(defn reset []
+  (swap! omni-data update-in [:highlighted] #(identity 0)))
+
+(defmulti action
+  (fn [current-action]
+    (:type current-action)))
+
+(defmethod action :hot-key [current]
+  (let [el (js/$ (str "[data-hotkey='" (:hotkey current) "']"))]
+    (if (.is el "input, textarea")
+      (.focus el)
+      (.click el))))
+
+(defmethod action :repo [current]
+  (println "search"))
+
 ;; -------------------------
 ;; Views
 
 (defn home-page []
-  (let [actions (cursor omni-data [:actions])]
+  (let [actions (cursor omni-data [:actions])
+        highlighted (:highlighted @omni-data)
+        current-action (nth (:actions @omni-data) (:highlighted @omni-data))]
     [:div.github-omnibar
      [:div.filter-repos.filter-bar
       [:input.filter-input {:type "text"
                             :placeholder "Find ..."
-                            :autofocus "true"}]]
-
+                            :auto-focus "true"
+                            :on-key-down #(case (.-which %)
+                                            40 (godown)
+                                            38 (goup)
+                                            13 (action current-action)
+                                            (reset))
+                                      }]]
      [:ul.mini-repo-list
-      (for [action @actions]
-        [:li.source>a.mini-repo-list-item.css-truncate
-         [:span.repo-and-owner>span.repo (:label action)]
-         [:span.stars>kbd (:hotkey action)]])]])
+      (map-indexed (fn [idx action]
+                     [:li.source {:key idx :class (if (= idx highlighted) "highlighted")}
+                      [:a.mini-repo-list-item.css-truncate
+                       [:span.repo-and-owner>span.repo (:label action)]
+                       [:span.stars>kbd (:hotkey action)]]])
+           @actions)]])
    )
 
 (defn about-page []
