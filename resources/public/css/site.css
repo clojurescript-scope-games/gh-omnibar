@@ -23,3 +23,7 @@
 .github-omnibar .mini-repo-list li.highlighted {
     background-color: #fafafa;
 }
+
+.github-omnibar .mini-repo-list li a{
+    cursor: pointer;
+}
