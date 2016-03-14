@@ -18,6 +18,7 @@
                  [org.clojure/clojurescript "1.7.228"
                   :scope "provided"]
                  [secretary "1.2.3"]
+                 [clj-fuzzy "0.3.1"]
                  [venantius/accountant "0.1.7"
                   :exclusions [org.clojure/tools.reader]]]
 
@@ -37,6 +38,7 @@
 
   :clean-targets ^{:protect false} [:target-path
                                     [:cljsbuild :builds :app :compiler :output-dir]
+                                    [:cljsbuild :builds :app :compiler :output-to]
                                     [:cljsbuild :builds :app :compiler :output-to]]
 
   :source-paths ["src/clj" "src/cljc"]
@@ -51,7 +53,19 @@
                                         :output-dir "target/cljsbuild/public/js/out"
                                         :asset-path   "/js/out"
                                         :optimizations :none
-                                        :pretty-print  true}}}}
+                                        :pretty-print  true}}
+                       :prod {:source-paths ["src/cljs"]
+                              :compiler {:output-to "target/prod/public/js/app.js"
+                                        :output-dir "target/prod/public/js/out"
+                                         :asset-path   "/js/out"
+                                         :elide-asserts true
+                                        :optimizations :simple
+                                        :pretty-print  false}}
+                       :release {:source-paths ["src/cljs" "src/cljc"]
+                             :compiler {:output-to "chrome/js/app.js"
+                                        :optimizations :advanced
+                                        :elide-asserts true
+                                        :pretty-print  false}}}}
 
 
   :profiles {:dev {:repl-options {:init-ns github-omnibar.repl}
