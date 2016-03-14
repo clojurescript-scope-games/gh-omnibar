@@ -1,0 +1,15 @@
+{
+  "title": "Github Omnibar",
+  "name": "github-omnibar",
+  "version": "0.0.1",
+  "description": "Omnibar for Github.com",
+  "main": "index.js",
+  "author": "Jichao Ouyang",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack"
+  ]
+}
