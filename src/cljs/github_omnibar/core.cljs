@@ -6,21 +6,36 @@
               [accountant.core :as accountant]))
     
 
-(defonce omni-data
-  (r/atom {:actions (.toArray (.map (js/$ "[data-hotkey]")
+
+(defn fetch-hotkeys []
+  (.toArray (.map (js/$ "[data-hotkey]")
                                     (fn [idx el]
                                       {:type :hot-key
                                        :hotkey (.getAttribute el "data-hotkey")
-                                       :label (or (.getAttribute el "aria-label") (.-textContent el))})))
+                                       :label (or (.getAttribute el "aria-label") (.-textContent el))}))))
+(defonce omni-data
+  (r/atom {:actions (fetch-hotkeys)
            :search ""
            :highlighted 0
            :display false
            }))
 
-;; (defn fuzzy-match [data keyword]
-;;   (filter #(re-find ))
-;;   (tokenize keyword)
-;;   )(fz/dice (:label action) keyword)
+(defn fetch-repos! []
+  (.get js/$ "/dashboard/ajax_your_repos"
+        (fn [el]
+          (swap! omni-data
+                 update-in [:actions]
+                 #(concat % (-> (js/$ el)
+                               (.filter (fn [_ node] (= "LI" (.-nodeName node))))
+                               (.map (fn [_ li]
+                                       (let [a (.find (js/$ li) "a.mini-repo-list-item")
+                                             span (.find a "span.repo")]
+                                         {:type (keyword (.replace (.-className li) " " "-"))
+                                          :href (.attr a "href")
+                                          :label (.text span)})))
+                               .toArray))))))
+(fetch-repos!)
+
 ;; ---------------------
 ;; Actions
 (defn- mod-actions [idx] (mod idx (count (:actions @omni-data))))
@@ -95,8 +110,14 @@
                        [:li.source {:key idx :class (if (= idx highlighted) "highlighted")}
                         [:a.mini-repo-list-item.css-truncate
                          {:on-click #(action! act)}
+                         (case (:type act)
+                           :public-source [:span.octicon.octicon-repo.repo-icon]
+                           :private-source [:span.octicon.octicon-lock.repo-icon.private]
+                           :public-fork [:span.octicon.octicon-repo-forked.repo-icon]
+                           :private-fork [:span.octicon.octicon-repo-forked.repo-icon.private]
+                           nil)
                          [:span.repo-and-owner>span.repo (:label act)]
-                         [:span.stars>kbd (:hotkey act)]]])
+                         (if-let [hotkey (:hotkey act)] [:span.stars>kbd hotkey])]])
                      (filter #(not= (get % :score 1) 0) @actions))]]))
    )
 

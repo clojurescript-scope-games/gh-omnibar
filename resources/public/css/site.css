@@ -4,17 +4,20 @@
 }
 .github-omnibar {
     background-color: white;
-  float: left;
-  position: absolute;
-  top: 0;
-  left: 40%;
-  width: 300px;
-  margin: 0 auto;
-  border: 1px solid #e5e5e5;
-  z-index: 99999;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: 300px;
+    margin: 0 auto;
+    border: 1px solid #e5e5e5;
+    z-index: 99999;
 }
 .github-omnibar .filter-repos {
     padding-bottom: 5px;
+}
+
+.github-omnibar .mini-repo-list {
     max-height: 300px;
     overflow-y: auto;
 }
