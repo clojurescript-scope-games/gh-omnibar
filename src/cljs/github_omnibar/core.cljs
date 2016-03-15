@@ -29,16 +29,26 @@
                                (.filter (fn [_ node] (= "LI" (.-nodeName node))))
                                (.map (fn [_ li]
                                        (let [a (.find (js/$ li) "a.mini-repo-list-item")
-                                             span (.find a "span.repo")]
+                                             span (.find a "span.repo")
+                                             svg (.find a "svg")]
                                          {:type (keyword (.replace (.-className li) " " "-"))
                                           :href (.attr a "href")
-                                          :label (.text span)})))
+                                          :label (.text span)
+                                          :svg (.-outerHTML (.get svg 0))})))
                                .toArray))))))
 (fetch-repos!)
 
+(defonce item-height 32.6)
 ;; ---------------------
 ;; Actions
-(defn- mod-actions [idx] (mod idx (count (:actions @omni-data))))
+(defn- mod-actions [idx]
+  (mod idx (count (:actions @omni-data))))
+
+(def container
+  (memoize #(js/$ "#omnibar .mini-repo-list")))
+
+(defn scroll-to [where]
+  (.scrollTop (container) where))
 
 (defn fuzzy-match [data keyword]
   (swap! data update-in [:actions]
@@ -49,13 +59,19 @@
                 reverse))))
 
 (defn godown! []
-  (swap! omni-data update-in [:highlighted] (comp mod-actions inc)))
+  (swap! omni-data update-in [:highlighted] (comp mod-actions inc))
+  (let [idx (:highlighted @omni-data)]
+    (scroll-to (- (* item-height idx) (* item-height 8)))))
 
 (defn goup! []
-  (swap! omni-data update-in [:highlighted] (comp mod-actions dec)))
+  (swap! omni-data update-in [:highlighted] (comp mod-actions dec))
+  (let [idx (:highlighted @omni-data)
+        el (js/$ "#omnibar .mini-repo-list")]
+    (scroll-to (* item-height idx))))
 
 (defn reset-highlight! []
-  (swap! omni-data assoc :highlighted 0))
+  (swap! omni-data assoc :highlighted 0)
+  (scroll-to 0))
 
 (defn exit! []
   (swap! omni-data assoc :display false))
@@ -89,7 +105,7 @@
         [:input.filter-input {:type "text"
                               :placeholder "Find ..."
                               :auto-focus "true"
-                              :on-blur #(exit!)
+                              ;; :on-blur #(exit!)
                               :on-change (fn [e]
                                            (fuzzy-match omni-data (-> e .-target .-value)))
                               :on-key-down #(let [key (.-which %)
@@ -107,15 +123,11 @@
                                               )}]]
        [:ul.mini-repo-list
         (map-indexed (fn [idx act]
-                       [:li.source {:key idx :class (if (= idx highlighted) "highlighted")}
+                       [:li.source {:key idx
+                                    :class (if (= idx highlighted) "highlighted")}
                         [:a.mini-repo-list-item.css-truncate
                          {:on-click #(action! act)}
-                         (case (:type act)
-                           :public-source [:span.octicon.octicon-repo.repo-icon]
-                           :private-source [:span.octicon.octicon-lock.repo-icon.private]
-                           :public-fork [:span.octicon.octicon-repo-forked.repo-icon]
-                           :private-fork [:span.octicon.octicon-repo-forked.repo-icon.private]
-                           nil)
+                         [:span {:dangerouslySetInnerHTML {:__html (:svg act)}}]
                          [:span.repo-and-owner>span.repo (:label act)]
                          (if-let [hotkey (:hotkey act)] [:span.stars>kbd hotkey])]])
                      (filter #(not= (get % :score 1) 0) @actions))]]))

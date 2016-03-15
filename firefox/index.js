@@ -7,5 +7,5 @@ var pageMod = require("sdk/page-mod");
 pageMod.PageMod({
   include: "https://github.com/*",
     contentScriptFile: ["./jquery.min.js","./app.js"],
-    contentStyleFile: "./site.css"
+    contentStyleFile: ["./site.css"]
 });
