@@ -31,7 +31,7 @@
                                        (let [a (.find (js/$ li) "a.mini-repo-list-item")
                                              span (.find a "span.repo")
                                              svg (.find a "svg")]
-                                         {:type (keyword (.replace (.-className li) " " "-"))
+                                         {:type :repo
                                           :href (.attr a "href")
                                           :label (.text span)
                                           :svg (.-outerHTML (.get svg 0))})))
@@ -88,7 +88,7 @@
   (exit!))
 
 (defmethod action! :repo [current]
-  (println "search"))
+  (set! (.-location js/window) (:href current)))
 
 (defmethod action! :exit [_]
   (exit!))
@@ -105,7 +105,7 @@
         [:input.filter-input {:type "text"
                               :placeholder "Find ..."
                               :auto-focus "true"
-                              ;; :on-blur #(exit!)
+                              :on-blur #(exit!)
                               :on-change (fn [e]
                                            (fuzzy-match omni-data (-> e .-target .-value)))
                               :on-key-down #(let [key (.-which %)
@@ -126,7 +126,9 @@
                        [:li.source {:key idx
                                     :class (if (= idx highlighted) "highlighted")}
                         [:a.mini-repo-list-item.css-truncate
-                         {:on-click #(action! act)}
+                         {:href (:href act)
+                          :on-click (fn [e] (.preventDefault e)
+                                      (action! act))}
                          [:span {:dangerouslySetInnerHTML {:__html (:svg act)}}]
                          [:span.repo-and-owner>span.repo (:label act)]
                          (if-let [hotkey (:hotkey act)] [:span.stars>kbd hotkey])]])
@@ -139,8 +141,8 @@
   (r/render [omnibar] (.getElementById js/document "omnibar")))
 
 
-  (.append (js/$ "body") (js/$ "<div id=omnibar></div>"))
-  (.keydown (js/$ js/document) (fn [e]
-                                 (if (and (= 80 (.-which e)) (= "BODY" (.-nodeName (.-target e))))
-                                   (swap! omni-data assoc :display true))))
-  (mount-root)
+(.append (js/$ "body") (js/$ "<div id=omnibar></div>"))
+(.keydown (js/$ js/document) (fn [e]
+                               (if (and (= 80 (.-which e)) (= "BODY" (.-nodeName (.-target e))))
+                                 (swap! omni-data assoc :display true))))
+(mount-root)
