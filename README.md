@@ -21,7 +21,10 @@ You're welcome.
  then drag it to Firefox
 
 ## How to use
-press <kbd>p</kbd>
+press <kbd>p</kbd> and 🎉
+
+![](https://www.evernote.com/l/ABcsG--4RF9MgbcJanT6Vb9l_8LRfDILYMUB/image.png)
+
 ## Dev
 it's written in ClojureScript with reagent and then compile to JavaScript.
 
