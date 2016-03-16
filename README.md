@@ -13,13 +13,15 @@ You're welcome.
 ### Chrome
  👉 [webstore](https://chrome.google.com/webstore/detail/github-omnibar/njccjmmakcbdpnlbodllfgiloenfpocb?utm_source=chrome-ntp-icon)
 
- 👉 [download]()
+ 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.0/chrome.crx)
 
 ### Firefox
- 👉 [download]()
+ 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.0/github_omnibar-0.1.0-fx.xpi)
 
  then drag it to Firefox
 
+## How to use
+press <kbd>p</kbd>
 ## Dev
 it's written in ClojureScript with reagent and then compile to JavaScript.
 
