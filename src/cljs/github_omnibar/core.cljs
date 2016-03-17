@@ -96,7 +96,8 @@
 
 (defn- on-key-down [e]
   (let [key (.-which e)
-        ctrl (.-ctrlKey e)]
+        ctrl (.-ctrlKey e)
+        current-action (nth (:actions @omni-data) (:highlighted @omni-data))]
     (cond
       (= key 40) (godown!)
       (and (= key 78) ctrl) (godown!)
@@ -113,8 +114,7 @@
 (defn omnibar []
   (if (:display @omni-data)
     (let [actions (cursor omni-data [:actions])
-          highlighted (:highlighted @omni-data)
-          current-action (nth (:actions @omni-data) (:highlighted @omni-data))]
+          highlighted (:highlighted @omni-data)]
       [:div.github-omnibar
        [:div.filter-repos.filter-bar
         [:input.filter-input {:type "text"
