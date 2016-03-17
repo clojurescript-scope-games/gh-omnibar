@@ -6,6 +6,6 @@ var pageMod = require("sdk/page-mod");
 // The script replaces the page contents with a message
 pageMod.PageMod({
   include: "https://github.com/*",
-    contentScriptFile: ["./jquery.min.js","./app.js"],
+    contentScriptFile: ["./jquery.min.js", "./string_score.js", "./app.js"],
     contentStyleFile: ["./site.css"]
 });
