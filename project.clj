@@ -18,7 +18,6 @@
                  [org.clojure/clojurescript "1.7.228"
                   :scope "provided"]
                  [secretary "1.2.3"]
-                 [clj-fuzzy "0.3.1"]
                  [venantius/accountant "0.1.7"
                   :exclusions [org.clojure/tools.reader]]]
 
@@ -60,16 +59,9 @@
                                          :asset-path   "/js/out"
                                          :elide-asserts true
                                         :optimizations :simple
-                                        :pretty-print  false}}
-                       :release {:source-paths ["src/cljs" "src/cljc"]
-                             :compiler {:output-to "chrome/js/app.js"
-                                        :optimizations :advanced
-                                        :elide-asserts true
                                         :pretty-print  false}}}}
 
-
   :profiles {:dev {:repl-options {:init-ns github-omnibar.repl}
-
                    :dependencies [[ring/ring-mock "0.3.0"]
                                   [ring/ring-devel "1.4.0"]
                                   [prone "1.0.2"]

@@ -36,9 +36,9 @@
             :content "width=device-width, initial-scale=1"}]
     (include-css "/css/github.css")
     (include-css "/css/frameworks.css")
-    (include-css "/css/octicons.css")
     (include-js "/js/jquery.min.js")
-    (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))
+    (include-js "/js/string_score.js")
+    (include-css "/css/site.css")
     ]
    [:body
     mount-target

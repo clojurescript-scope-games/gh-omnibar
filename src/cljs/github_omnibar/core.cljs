@@ -1,18 +1,16 @@
 (ns github-omnibar.core
-  (:use [clj-fuzzy.metrics :only [tversky]])
   (:require [reagent.core :as r :refer [atom cursor]]
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]))
-    
-
 
 (defn fetch-hotkeys []
   (.toArray (.map (js/$ "[data-hotkey]")
-                                    (fn [idx el]
-                                      {:type :hot-key
-                                       :hotkey (.getAttribute el "data-hotkey")
-                                       :label (or (.getAttribute el "aria-label") (.-textContent el))}))))
+                  (fn [idx el]
+                    {:type :hot-key
+                     :hotkey (.getAttribute el "data-hotkey")
+                     :label (or (.getAttribute el "aria-label") (.-textContent el))}))))
+
 (defonce omni-data
   (r/atom {:actions (fetch-hotkeys)
            :search ""
@@ -54,7 +52,10 @@
   (swap! data update-in [:actions]
          (fn [actions]
            (->> actions
-                (map #(assoc % :score (if (empty? keyword) nil (tversky (:label %) keyword))))
+                (map #(assoc % :score
+                             (if (empty? keyword)
+                               nil
+                               (.score (:label %) keyword))))
                 (sort-by :score)
                 reverse))))
 
@@ -93,6 +94,20 @@
 (defmethod action! :exit [_]
   (exit!))
 
+(defn- on-key-down [e]
+  (let [key (.-which e)
+        ctrl (.-ctrlKey e)]
+    (cond
+      (= key 40) (godown!)
+      (and (= key 78) ctrl) (godown!)
+      (= key 38) (goup!)
+      (and (= key 80) ctrl) (goup!)
+      (= key 13) (do (.preventDefault e)
+                     (action! current-action))
+      (= key 27) (exit!)
+      (and (= key 71) ctrl) (exit!)
+      (and (< key 90) (> key 48)) (reset-highlight!))
+    ))
 ;; -------------------------
 ;; Views
 (defn omnibar []
@@ -108,19 +123,7 @@
                               :on-blur #(exit!)
                               :on-change (fn [e]
                                            (fuzzy-match omni-data (-> e .-target .-value)))
-                              :on-key-down #(let [key (.-which %)
-                                                  ctrl (.-ctrlKey %)]
-                                              (cond
-                                                (= key 40) (godown!)
-                                                (and (= key 78) ctrl) (godown!)
-                                                (= key 38) (goup!)
-                                                (and (= key 80) ctrl) (goup!)
-                                                (= key 13) (do (.preventDefault %)
-                                                               (action! current-action))
-                                                (= key 27) (exit!)
-                                                (and (= key 71) ctrl) (exit!)
-                                                (and (< key 90) (> key 48)) (reset-highlight!))
-                                              )}]]
+                              :on-key-down on-key-down}]]
        [:ul.mini-repo-list
         (map-indexed (fn [idx act]
                        [:li.source {:key idx
@@ -139,7 +142,6 @@
 ;; Initialize omnibar
 (defn mount-root []
   (r/render [omnibar] (.getElementById js/document "omnibar")))
-
 
 (.append (js/$ "body") (js/$ "<div id=omnibar></div>"))
 (.keydown (js/$ js/document) (fn [e]
