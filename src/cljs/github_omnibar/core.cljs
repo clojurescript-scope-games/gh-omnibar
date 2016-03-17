@@ -144,7 +144,12 @@
   (r/render [omnibar] (.getElementById js/document "omnibar")))
 
 (.append (js/$ "body") (js/$ "<div id=omnibar></div>"))
-(.keydown (js/$ js/document) (fn [e]
-                               (if (and (= 80 (.-which e)) (= "BODY" (.-nodeName (.-target e))))
-                                 (swap! omni-data assoc :display true))))
+(.keypress (js/$ js/document)
+          (fn [e]
+            (if (and (= 112 (.-which e))
+                     (not (.-ctrlKey e))
+                     (not (.-metaKey e))
+                     (not (.-altKey e))
+                     (= "BODY" (.-nodeName (.-target e))))
+              (swap! omni-data assoc :display true))))
 (mount-root)
