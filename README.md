@@ -13,10 +13,10 @@ You're welcome.
 ### Chrome
  👉 [webstore](https://chrome.google.com/webstore/detail/github-omnibar/njccjmmakcbdpnlbodllfgiloenfpocb?utm_source=chrome-ntp-icon)
 
- 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.0/chrome.crx)
+ 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.1/chrome.crx)
 
 ### Firefox
- 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.0/github_omnibar-0.1.0-fx.xpi)
+ 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.1/github_omnibar-0.1.1-fx.xpi)
 
  then drag it to Firefox
 
