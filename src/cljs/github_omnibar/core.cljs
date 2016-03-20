@@ -146,7 +146,8 @@
 (.append (js/$ "body") (js/$ "<div id=omnibar></div>"))
 (.keypress (js/$ js/document)
           (fn [e]
-            (if (and (= 112 (.-which e))
+            (if (and (or (= 112 (.-which e))
+                         (= 46 (.-which e)))
                      (not (.-ctrlKey e))
                      (not (.-metaKey e))
                      (not (.-altKey e))
