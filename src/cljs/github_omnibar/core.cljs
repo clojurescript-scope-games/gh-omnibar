@@ -117,10 +117,10 @@
           highlighted (:highlighted @omni-data)]
       [:div.github-omnibar
        [:div.filter-repos.filter-bar
-        [:input.filter-input {:type "text"
+        [:input.filter-input.form-control {:type "text"
                               :placeholder "Find ..."
                               :auto-focus "true"
-                              :on-blur #(exit!)
+                              :on-blur #(.setTimeout js/window exit! 100)
                               :on-change (fn [e]
                                            (fuzzy-match omni-data (-> e .-target .-value)))
                               :on-key-down on-key-down}]]
