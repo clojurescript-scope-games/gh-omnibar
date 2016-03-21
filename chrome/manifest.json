@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Github Omnibar",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Omnibar for Github",
     "author": "Ouyang Jichao",
     "content_scripts": [
