@@ -16,7 +16,7 @@ You're welcome.
  👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.2/chrome.crx)
 
 ### Firefox
- 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.2/github-omnibar-0.1.2-fx.xpi)
+ 👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.2/github_omnibar-0.1.2-fx.xpi)
 
  then drag it to Firefox
 
