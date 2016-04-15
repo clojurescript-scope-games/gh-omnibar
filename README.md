@@ -1,8 +1,8 @@
-# Github Omnibar
+# GitHub Omnibar
 
-Dear :octocat: Github:
+Dear :octocat: GitHub:
 
-bitbucket has a [awesome omnibar](https://developer.atlassian.com/blog/2016/02/6-secret-bitbucket-features/?categories=git#omnibar). I guess you also deserve one, so I made you a even better one.
+BitBucket has an [awesome omnibar](https://developer.atlassian.com/blog/2016/02/6-secret-bitbucket-features/?categories=git#omnibar). I guess you also deserve one, so I made you an even better one.
 
 You're welcome.
 
@@ -18,21 +18,21 @@ You're welcome.
 ### Firefox
  👉 [download](https://github.com/jcouyang/gh-omnibar/releases/download/v0.1.2/github_omnibar-0.1.2-fx.xpi)
 
- then drag it to Firefox
+ Then drag it to Firefox.
 
 ## How to use
-press <kbd>p</kbd> and 🎉
+Press <kbd>p</kbd> and 🎉.
 
 ![](https://www.evernote.com/l/ABcsG--4RF9MgbcJanT6Vb9l_8LRfDILYMUB/image.png)
 
 ## Dev
-it's written in ClojureScript with reagent and then compile to JavaScript.
+It's written in ClojureScript with reagent and then compiled to JavaScript.
 
 ### Setup Locally
 
 1. `lein figwhell`
 2. open http://localhost:3449
 
-### Build chrome and firefox extensions
+### Build Chrome and Firefox extensions
 
-see scripts in `ci` folder
+See scripts in `ci` folder.
