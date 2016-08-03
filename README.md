@@ -1,5 +1,8 @@
 # GitHub Omnibar
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/d/njccjmmakcbdpnlbodllfgiloenfpocb.svg?maxAge=2592000)]()
+[![Github All Releases](https://img.shields.io/github/downloads/jcouyang/gh-omnibar/total.svg?maxAge=2592000)]()
+
 Dear :octocat: GitHub:
 
 BitBucket has an [awesome omnibar](https://developer.atlassian.com/blog/2016/02/6-secret-bitbucket-features/?categories=git#omnibar). I guess you also deserve one, so I made you an even better one.
