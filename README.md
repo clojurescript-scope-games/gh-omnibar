@@ -1,7 +1,7 @@
 # GitHub Omnibar
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/d/njccjmmakcbdpnlbodllfgiloenfpocb.svg?maxAge=2592000)]()
-[![Github All Releases](https://img.shields.io/github/downloads/jcouyang/gh-omnibar/total.svg?maxAge=2592000)]()
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/d/njccjmmakcbdpnlbodllfgiloenfpocb.svg?maxAge=2592000)](https://chrome.google.com/webstore/detail/github-omnibar/njccjmmakcbdpnlbodllfgiloenfpocb)
+[![Github All Releases](https://img.shields.io/github/downloads/jcouyang/gh-omnibar/total.svg?maxAge=2592000)](https://github.com/jcouyang/gh-omnibar/releases)
 
 Dear :octocat: GitHub:
 
